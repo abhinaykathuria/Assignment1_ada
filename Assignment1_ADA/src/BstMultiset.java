@@ -3,28 +3,30 @@ import java.util.*;
 
 public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 {
-	  Node root;
+	Node root;
 	public BstMultiset() {
 		root=null;
-		
+
 	} // end of BstMultiset()
 
 	public void add(T item) {
 		// Implement me!
-		addRecursive(root,item);
+		root=addRecursive(root,item);
 	} // end of add()
 
 
 	public Node addRecursive(Node root,T item)
 	{
+		if(numberOccur(root,item)>0)
+			return root;
 		Node new_node=new Node(item);
+		new_node.setOccurances(1);
 		if(root==null)
 		{
 			//new_node.setOccurances(1);
 			root = new_node;
+
 		}
-		//int occur=numberOccur(item);
-		//new_node.setOccurances(occur);
 		if(root.getKey().compareTo(item)>0)
 		{
 			root.left = addRecursive(root.getLeft(), item);
@@ -35,50 +37,120 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 		}
 		return root;
 	}
-	private  int numberOccur(T item) {
-		
-	    
-		return 0;
+
+
+	private  int numberOccur(Node root,T item) {
+		if(root==null)
+			return 0;
+		if (root==null || root.getKey().equals(item)) {
+			root.setOccurances(root.getOccurances()+1);
+			return root.getOccurances();
+		}
+		if (root.key.compareTo(item)>0)
+			return  numberOccur(root.getLeft(), item);
+		else
+			return   numberOccur(root.getRight(), item);
 		// TODO Auto-generated method stub	
 	}
 
 	public int search(T item) {
 		// Implement me!
 
+		return searchRec(root,item);
 		// default return, please override when you implement this method
-		return 0;
+
 	} // end of add()
 
 
+	public int searchRec(Node root,T item)
+	{
+		if(root==null)
+			return 0;
+		if ( root.getKey().equals(item)) {
+			return root.getOccurances();
+		}
+		if (root.getKey().compareTo(item)>0)
+			return searchRec(root.getLeft(), item);
+		else
+			return searchRec(root.getRight(), item);
+	}
 	public void removeOne(T item) {
-		// Implement me!
+		int occ=decreaseOccurances(item);
+		if(occ==0)
+			root=removeAllRec(root,item);
 	} // end of removeOne()
+
+
+	private int decreaseOccurances(T item) {
+		// TODO Auto-generated method stub
+
+		if(root==null)
+			return 0;
+		if (root==null || root.getKey().equals(item)) {
+			root.setOccurances(root.getOccurances()-1);
+			return root.getOccurances();
+		}
+		if (root.key.compareTo(item)>0)
+			return  numberOccur(root.getLeft(), item);
+		else
+			return   numberOccur(root.getRight(), item);
+		// TODO Auto-generated method stub	
 	
-	
+	}
+
 	public void removeAll(T item) {
 		// Implement me!
+		root=removeAllRec(root,item);
 	} // end of removeAll()
 
+	public Node removeAllRec(Node root, Comparable comparable)
+	{       
+		if (root == null)  
+			return root;
+		if (root.getKey().compareTo(comparable)>0)
+			root.setLeft(removeAllRec(root.getLeft(), comparable));
+		else if (root.getKey().compareTo(comparable)<0)
+			root.right = removeAllRec(root.right, comparable);
+		else
+		{
+			if (root.left == null)
+				return root.getRight();
+			else if (root.right == null)
+				return root.getLeft();
+			root.setKey(minimum(root.getRight()));
+			root.right = removeAllRec(root.getRight(), root.getKey());
+		}
+		return root;
+	}
+	private T minimum(Node node) {
+		Comparable min = node.getKey();
+		while (node.getLeft() != null)
+		{
+			min = node.getLeft().getKey();
+			node = node.left;
+		}
+		return (T) min;
+	}
 
 	public void print(PrintStream out) {
 		// Implement me!
 		inorderRec(root);
 	} // end of print()
 
-	 // A utility function to do inorder traversal of BST
-    void inorderRec(Node root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.println(root.key);
-            inorderRec(root.right);
-        }
-    }
+	// A utility function to do inorder traversal of BST
+	void inorderRec(Node root) {
+		if (root != null) {
+			inorderRec(root.left);
+			System.out.println(root.key + " | "+root.getOccurances());
+			inorderRec(root.right);
+		}
+	}
 	class Node<T extends Comparable<T>>{
-        T key;
-        int occurances;
-        Node left, right;
- 
-        public T getKey() {
+		T key;
+		int occurances;
+		Node left, right;
+
+		public T getKey() {
 			return key;
 		}
 
@@ -111,9 +183,9 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 		}
 
 		public Node(T item) {
-            key = item;
-            left = right = null;
-            occurances=0;
-        }
-    }
+			key = item;
+			left = right = null;
+			occurances=0;
+		}
+	}
 } // end of class BstMultiset
