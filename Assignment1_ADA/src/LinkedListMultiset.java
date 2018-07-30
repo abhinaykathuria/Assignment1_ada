@@ -11,9 +11,11 @@ public class LinkedListMultiset<T> extends Multiset<T> {
 
 	public void add(T item) {
 		// Implement me!
-		Node new_node = new Node(item);
 		int occur = getOccurances(item);
-		new_node.setOccur(occur + 1);
+		if(occur>0)
+			return;
+		Node new_node = new Node(item);
+		new_node.setOccur(1);
 		if (head != null)
 			new_node.setNext(head);
 		head = new_node;
@@ -28,7 +30,7 @@ public class LinkedListMultiset<T> extends Multiset<T> {
 			if (start.getValue().equals(item)) {
 				occ = start.getOccur();
 				start.setOccur(occ + 1);
-
+				return start.getOccur();
 			}
 			start = start.getNext();
 		}
@@ -52,9 +54,12 @@ public class LinkedListMultiset<T> extends Multiset<T> {
 	public void removeOne(T item) {
 		if (head == null)
 			return;
+		
 		if (head.getValue().equals(item)) {
-			head = head.getNext();
-			decreaseOccurances(item);
+			if(head.getOccur()>1)
+				head.setOccur(head.getOccur()-1);
+			else
+				head = head.getNext();
 			return;
 		}
 		Node start = head;
@@ -62,9 +67,16 @@ public class LinkedListMultiset<T> extends Multiset<T> {
 		int count = 0;
 		while (start != null) {
 			if (start.getValue().equals(item)) {
-				prev.setNext(start.getNext());
-				decreaseOccurances(item);
-				return;
+				if(start.getOccur()>1)
+				{
+					start.setOccur(start.getOccur()-1);
+					return;
+				}
+				else
+				{
+					prev.setNext(start.getNext());
+					return;
+				}
 			} else
 				prev = start;
 			start = start.getNext();
@@ -72,37 +84,22 @@ public class LinkedListMultiset<T> extends Multiset<T> {
 
 	} // end of removeOne()
 
-	private void decreaseOccurances(T item) {
-
-		if (head == null)
-			return;
-		Node start = head;
-		while (start != null) {
-			if (start.getValue().equals(item)) {
-				start.setOccur(start.getOccur() - 1);
-			}
-			start = start.getNext();
-		}
-
-	}
 
 	public void removeAll(T item) {
 		// Implement me!
 		
 		if (head == null)
 			return;
-		int occur=getOccurances(item);
-		int count=0;
-		while (head!=null&&head.getValue().equals(item)&&occur>0) {
+		if (head!=null&&head.getValue().equals(item)) {
 			head = head.getNext();
-			occur--;
+			return;
 		}
 		Node start = head;
 		Node prev = head;
-		while (start != null&&occur>0) {
+		while (start != null) {
 			if (start.getValue().equals(item)) {
 				prev.setNext(start.getNext());
-				occur--;
+				return;
 			}
 			else
 				prev = start;
@@ -112,17 +109,12 @@ public class LinkedListMultiset<T> extends Multiset<T> {
 
 	public void print(PrintStream out) {
 		// Implement me!
-		HashSet hs = new HashSet();
 		Node start = head;
 		if (start == null)
 			return;
 		while (start != null) {
-			if (!hs.contains(start.getValue())) {
 				System.out.println(start.getValue() + " | " + start.getOccur());
-				hs.add(start.getValue());
-			}
 			start = start.getNext();
-
 		}
 	} // end of print()
 

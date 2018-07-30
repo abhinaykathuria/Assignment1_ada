@@ -1,6 +1,9 @@
 import java.io.PrintStream;
 import java.util.*;
 
+
+
+
 public class SortedLinkedListMultiset<T extends Comparable<T>> extends Multiset<T>  
 {
 	protected Node head;
@@ -13,9 +16,12 @@ public class SortedLinkedListMultiset<T extends Comparable<T>> extends Multiset<
 	public void add(T item) {
 		// Implement me!
 		//Node new_node=new Node(item);
-		Node new_node=new Node(item);
-		new_node.setOccur(getOccurances(item)+1);
 
+		int occur = getOccurances(item);
+		if(occur>0)
+			return;
+		Node new_node=new Node(item);
+		new_node.setOccur(1);
 		if(head==null) {
 			head=new_node;
 			return;
@@ -81,40 +87,56 @@ public class SortedLinkedListMultiset<T extends Comparable<T>> extends Multiset<
 
 		if (head == null)
 			return;
-		if(head.getValue().equals(item)) {
-			head=head.getNext();
-			decreaseOccurances(item);
+		
+		if (head.getValue().equals(item)) {
+			if(head.getOccur()>1)
+				head.setOccur(head.getOccur()-1);
+			else
+				head = head.getNext();
 			return;
 		}
 		Node start = head;
 		Node prev = null;
 		int count = 0;
-		while (start != null) {
+		while (start != null&& start.getValue().compareTo(item)<=0) {
+			if (start.getValue().equals(item) ) {
+				if(start.getOccur()>1)
+				{
+					start.setOccur(start.getOccur()-1);
+					return;
+				}
+				else
+				{
+					prev.setNext(start.getNext());
+					return;
+				}
+			} else
+				prev = start;
+			start = start.getNext();
+		}
+		
+	} // end of removeOne()
+
+	public void removeAll(T item) {
+		
+		if (head == null)
+			return;
+		if (head!=null&&head.getValue().equals(item)) {
+			head = head.getNext();
+			return;
+		}
+		Node start = head;
+		Node prev = head;
+		while (start != null&& start.getValue().compareTo(item)<=0) {
 			if (start.getValue().equals(item)) {
 				prev.setNext(start.getNext());
-				decreaseOccurances(item);
 				return;
 			}
 			else
 				prev = start;
 			start = start.getNext();
 		}
-	} // end of removeOne()
-
-	private void decreaseOccurances(T item) {
-		if (head == null)
-			return;
-		Node start = head;
-		while (start != null) {
-			if (start.getValue().equals(item)) {
-				start.setOccur(start.getOccur() - 1);
-			}
-			start = start.getNext();
-		}
-
-	}
-	public void removeAll(T item) {
-		// Implement me!
+		
 	} // end of removeAll()
 
 
