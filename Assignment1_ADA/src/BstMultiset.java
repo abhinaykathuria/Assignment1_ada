@@ -75,13 +75,13 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 			return searchRec(root.getRight(), item);
 	}
 	public void removeOne(T item) {
-		int occ=decreaseOccurances(item);
+		int occ=decreaseOccurances(root,item);
 		if(occ==0)
 			root=removeAllRec(root,item);
 	} // end of removeOne()
 
 
-	private int decreaseOccurances(T item) {
+	private int decreaseOccurances(Node root,T item) {
 		// TODO Auto-generated method stub
 
 		if(root==null)
@@ -91,9 +91,9 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 			return root.getOccurances();
 		}
 		if (root.key.compareTo(item)>0)
-			return  numberOccur(root.getLeft(), item);
+			return  decreaseOccurances(root.getLeft(), item);
 		else
-			return   numberOccur(root.getRight(), item);
+			return   decreaseOccurances(root.getRight(), item);
 		// TODO Auto-generated method stub	
 	
 	}
@@ -117,19 +117,25 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 				return root.getRight();
 			else if (root.right == null)
 				return root.getLeft();
-			root.setKey(minimum(root.getRight()));
+			Comparable min[]=minimum(root.getRight());
+			root.setKey(min[0]);
+			root.setOccurances((int) min[1]);
 			root.right = removeAllRec(root.getRight(), root.getKey());
 		}
 		return root;
 	}
-	private T minimum(Node node) {
-		Comparable min = node.getKey();
+	private Comparable[] minimum(Node node) {
+		Comparable min[] = new Comparable[2] ;
+		min[0]=  node.getKey();
+		min[1]= node.getOccurances();
+
 		while (node.getLeft() != null)
 		{
-			min = node.getLeft().getKey();
+			min[0] = node.getLeft().getKey();
+			min[1]= node.getLeft().getOccurances();
 			node = node.left;
 		}
-		return (T) min;
+		return min;
 	}
 
 	public void print(PrintStream out) {
