@@ -42,7 +42,8 @@ public class MultisetTester
 		boolean bQuit = false;
 		
 		// continue reading in commands until we either receive the quit signal or there are no more input commands
-		while (!bQuit && (line = inReader.readLine()) != null) {
+		while (!bQuit && (line = inReader.readLine()) != null) {			
+			
 			String[] tokens = line.split(" ");
 
 			// check if there is at least an operation command
