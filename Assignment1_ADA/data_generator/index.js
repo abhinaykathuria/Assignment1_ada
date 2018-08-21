@@ -28,6 +28,9 @@ var reversedIntDataSet = [];
 for (var i = 0; i < arraySize; i++) {
 	reversedIntDataSet.push('A ' + reversedIntArray[i]);
 }
+for (var i = 0; i < searchSize; i++) {
+	reversedIntDataSet.push('S ' + reversedIntArray[i]);
+}
 
 var stringDataSet = [];
 for (var i = 0; i <= arraySize; i++) {
@@ -54,17 +57,17 @@ var reversedStringDataSet = deepcopy(sortedStringDataSet).reverse();
 var sortedCharDataSet = deepcopy(charDataSet).sort();
 var reversedCharDataSet = deepcopy(sortedCharDataSet).reverse();
 
-writeArrayToFile('TestData/intDataSet.in', intDataSet);
-writeArrayToFile('TestData/sortedIntDataSet.in', sortedIntDataSet);
-writeArrayToFile('TestData/reversedIntDataSet.in', reversedIntDataSet);
+writeArrayToFile('TestData/Int/intDataSet.in', intDataSet);
+writeArrayToFile('TestData/Int/sortedIntDataSet.in', sortedIntDataSet);
+writeArrayToFile('TestData/Int/reversedIntDataSet.in', reversedIntDataSet);
 
-writeArrayToFile('TestData/stringDataSet.in', stringDataSet);
-writeArrayToFile('TestData/sortedStringDataSet.in', sortedStringDataSet);
-writeArrayToFile('TestData/reversedStringDataSet.in', reversedStringDataSet);
+writeArrayToFile('TestData/String/stringDataSet.in', stringDataSet);
+writeArrayToFile('TestData/String/sortedStringDataSet.in', sortedStringDataSet);
+writeArrayToFile('TestData//StringreversedStringDataSet.in', reversedStringDataSet);
 
-writeArrayToFile('TestData/charDataSet.in', charDataSet);
-writeArrayToFile('TestData/sortedCharDataSet.in', sortedCharDataSet);
-writeArrayToFile('TestData/reversedCharDataSet.in', reversedCharDataSet);
+writeArrayToFile('TestData/Char/charDataSet.in', charDataSet);
+writeArrayToFile('TestData/Char/sortedCharDataSet.in', sortedCharDataSet);
+writeArrayToFile('TestData/Char/reversedCharDataSet.in', reversedCharDataSet);
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
