@@ -2,3 +2,13 @@ Assignment1_ADA/data_generator/node_modules/
 *.out
 Assignment1_ADA/Assignment1_ADA.iml
 Assignment1_ADA/.idea/vcs.xml
+Assignment1_ADA/src/BalTreeMultiset.class
+Assignment1_ADA/src/BstMultiset$Node.class
+Assignment1_ADA/src/BstMultiset.class
+Assignment1_ADA/src/HashMultiset.class
+Assignment1_ADA/src/LinkedListMultiset$Node.class
+Assignment1_ADA/src/LinkedListMultiset.class
+Assignment1_ADA/src/Multiset.class
+Assignment1_ADA/src/MultisetTester.class
+Assignment1_ADA/src/SortedLinkedListMultiset$Node.class
+Assignment1_ADA/src/SortedLinkedListMultiset.class
