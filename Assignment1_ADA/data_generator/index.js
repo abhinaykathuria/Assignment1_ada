@@ -3,7 +3,9 @@ var randomstring = require('randomstring');
 var deepcopy = require('deepcopy');
 var randomChar = require('random-char');
 
-var arraySize = 5000;
+var arraySize = 1000;
+var searchSize=100;
+
 
 var intArray = [];
 for (var i = 0; i < arraySize; i++) {
@@ -43,7 +45,9 @@ var charDataSet = [];
 for (var i = 0; i < arraySize; i++) {
 	charDataSet.push('A ' + randomChar('alpha'));
 }
-
+for (var i = 0; i < searchSize; i++) {
+	charDataSet.push('S ' + randomChar('alpha'));
+}
 var sortedStringDataSet = deepcopy(stringDataSet).sort();
 var reversedStringDataSet = deepcopy(sortedStringDataSet).reverse();
 
