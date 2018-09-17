@@ -17,23 +17,31 @@ public class SortedLinkedListMultiset<T extends Comparable<T>> extends Multiset<
 		// Implement me!
 		//Node new_node=new Node(item);
 
-		int occur = getOccurances(item);
-		if(occur>0)
-			return;
+
 		Node new_node=new Node(item);
 		new_node.setOccur(1);
 		if(head==null) {
 			head=new_node;
 			return;
 		}
+		if(head.getValue().compareTo(item)==0) {
+			head.setOccur(head.getOccur()+1);
+			return;
+		}
 		if(head.getValue().compareTo(item)>0) {
 			new_node.setNext(head);
 			head=new_node;
+			return;
 		}
 		Node start=head;
 		Node prev=head;
 		while(start!=null) {
-			if(start.getValue().compareTo(item)>0)
+			if(start.getValue().compareTo(item)==0)
+			{
+				start.setOccur(start.getOccur()+1);
+				return;
+			}
+			else if(start.getValue().compareTo(item)>0)
 			{
 				break;
 			}
@@ -49,21 +57,6 @@ public class SortedLinkedListMultiset<T extends Comparable<T>> extends Multiset<
 
 	} // end of add()
 
-	private int getOccurances(T item) {
-		if (head == null)
-			return 0;
-		Node start = head;
-		int occ = 0;
-		while (start != null) {
-			if (start.getValue().equals(item)) {
-				occ = start.getOccur();
-				start.setOccur(occ + 1);
-
-			}
-			start = start.getNext();
-		}
-		return occ;
-	}
 	public int search(T item) {
 		// Implement me!		
 

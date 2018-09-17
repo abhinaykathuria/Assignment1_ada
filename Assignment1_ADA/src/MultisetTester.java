@@ -69,7 +69,7 @@ public class MultisetTester
 				case "S":
 					if (tokens.length == 2) {
 						int foundNumber = multiset.search(tokens[1]);
-						searchOutWriter.println(tokens[1] + " " + foundNumber);
+						//searchOutWriter.println(tokens[1] + " " + foundNumber);
 					}
 					else {
 						// we print -1 to indicate error for automated testing
@@ -131,7 +131,7 @@ public class MultisetTester
 			searchOutFilename = args[1];
 		}
 		
-		
+		long startTime=System.nanoTime();
 		// determine which implementation to test
 		Multiset<String> multiset = null;
 		switch(implementationType) {
@@ -169,7 +169,8 @@ public class MultisetTester
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-
+		long endTime=System.nanoTime();
+		System.out.println((endTime-startTime) );
 	} // end of main()
 
 } // end of class MultisetTester

@@ -17,15 +17,19 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 
 	public Node addRecursive(Node root,T item)
 	{
-		if(numberOccur(root,item)>0)
-			return root;
+	
 		Node new_node=new Node(item);
 		new_node.setOccurances(1);
 		if(root==null)
 		{
 			//new_node.setOccurances(1);
 			root = new_node;
-
+			return root;
+		}
+		if(root.getKey().compareTo(item)==0)
+		{
+			root.setOccurances(root.getOccurances()+1);
+			return root;
 		}
 		if(root.getKey().compareTo(item)>0)
 		{
@@ -36,21 +40,6 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 			root.right = addRecursive(root.getRight(), item);
 		}
 		return root;
-	}
-
-
-	private  int numberOccur(Node root,T item) {
-		if(root==null)
-			return 0;
-		if (root==null || root.getKey().equals(item)) {
-			root.setOccurances(root.getOccurances()+1);
-			return root.getOccurances();
-		}
-		if (root.key.compareTo(item)>0)
-			return  numberOccur(root.getLeft(), item);
-		else
-			return   numberOccur(root.getRight(), item);
-		// TODO Auto-generated method stub	
 	}
 
 	public int search(T item) {
@@ -117,25 +106,20 @@ public class BstMultiset<T extends Comparable<T>> extends Multiset<T>
 				return root.getRight();
 			else if (root.right == null)
 				return root.getLeft();
-			Comparable min[]=minimum(root.getRight());
-			root.setKey(min[0]);
-			root.setOccurances((int) min[1]);
+			Node minimumNode=minimum(root.getRight());
+			root.setKey(minimumNode.getKey());
+			root.setOccurances(minimumNode.getOccurances());
 			root.right = removeAllRec(root.getRight(), root.getKey());
 		}
 		return root;
 	}
-	private Comparable[] minimum(Node node) {
-		Comparable min[] = new Comparable[2] ;
-		min[0]=  node.getKey();
-		min[1]= node.getOccurances();
-
-		while (node.getLeft() != null)
+	private Node minimum(Node node) {
+		Node new_node=node;
+		while (new_node.getLeft() != null)
 		{
-			min[0] = node.getLeft().getKey();
-			min[1]= node.getLeft().getOccurances();
-			node = node.left;
+			new_node=new_node.getLeft();
 		}
-		return min;
+		return new_node;
 	}
 
 	public void print(PrintStream out) {
